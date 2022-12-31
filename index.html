@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <title>小何祝各位新年快乐!</title>
 <embed src="./超多老虎（杭州大院）,苏一,周楚皓 - 你是人间四月天（抖音合唱版）.mp3" hidden="true" autostart="true" loop="true">
+	
+	<script type="text/javascript">
+		//原来是在微信易信执行Ready之前，先注册事件，所以放在所有请求的最前面
+		document.addEventListener("WeixinJSBridgeReady", function () {
+				audioAutoPlay('Jaudio');//给个全局函数
+		}, false);
+		document.addEventListener('YixinJSBridgeReady', function() {
+				audioAutoPlay('Jaudio');//给个全局函数
+		}, false);
+		</script>
 <style>
 html,body{
 	margin:0px;
@@ -31,7 +41,7 @@ audio{
       </ul>
     </div>
   </div>
-	<audio autoplay="autoplay" controls="controls"loop="loop" preload="auto"
+	<audio id="Jaudio" autoplay="autoplay" controls="controls"loop="loop" preload="auto"
             	src="./超多老虎（杭州大院）,苏一,周楚皓 - 你是人间四月天（抖音合唱版）.mp3">
 	</audio>
 </div>
@@ -323,6 +333,22 @@ window.addEventListener("resize",()=>{
 initVars();
 frame();
 </script>
+<script>
+	function audioAutoPlay(id){//全局控制播放函数
+			var audio = document.getElementById(id),
+					play = function(){
+							audio.play();
+							document.removeEventListener("touchstart",play, false);
+					};
+			audio.play();
+			document.addEventListener("touchstart",play, false);
+	}
+	 
+	var isAppInside=/micromessenger/i.test(navigator.userAgent.toLowerCase())||/yixin/i.test(navigator.userAgent.toLowerCase());
+	if(!isAppInside){//给非微信易信浏览器
+		audioAutoPlay();
+	}
+	</script>
 <script src="js/index.js"></script>
 
 </body>
